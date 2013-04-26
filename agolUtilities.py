@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Name:        agolUtilities
+# Name:        agolUtilities.py
 # Purpose:     Functions using the ArcGIS Portal API for AGOL admin / query
 #               Basically experimenting with the AGS Portal API...
 # Author:      Timothy Michael
