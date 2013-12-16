@@ -5,7 +5,6 @@ A collection of Python projects and utilities that I use / am working on
 
 File Descriptions:
 
-#agolUtilities.py#
--Functions using the ArcGIS Portal API for AGOL admin / query
--Basically experimenting with the AGS Portal API...
-
+###exportFeatureAttachments.py
+- Export feature attachments from an Esri geodatabase feature attachment table to a specified folder
+- Write the path to each expoted file to a new column in the feature attachment table
