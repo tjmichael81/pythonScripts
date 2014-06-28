@@ -14,3 +14,7 @@ File Descriptions:
 - Get .sde files from given directory
 - Get basic replica information (name, last sync) from each replica
 - Print or email output
+
+###listDomainsForFields.py
+- For provided workspace, get feature datasets, feature classes, fields
+- Check if fields have domains.  If so, get domain name and values (range and coded domains)
