@@ -15,6 +15,7 @@ def main():
 import os
 
 rootFolder = r'C:\TEMP\CacheTestService\Layers\_alllayers'
+validImageExtensions = ['.jpeg', '.jpg', '.png']
 
 def convertToHex(inStr):
     convertedNum = int(inStr, 16)
@@ -23,9 +24,8 @@ def convertToHex(inStr):
 renamedFileCount = 0
 renamedFolderCount = 0
 
+#Rename image tiles
 for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
-    #Rename files
-
     for name in files:
         fullPath = os.path.join(dirpath, name)
         #Assign variables to directory, file
@@ -34,12 +34,16 @@ for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
         #Assign variables to file name and extension
         root, extension = os.path.splitext(fileName)
 
-        #Ignore first character of file name ('C' for Column), convert to hex
-        convertedHex = convertToHex(str(root[1:]))
+        #Only change the name of files that have valid image extensions
+        #Extensions in list above
+        if extension in validImageExtensions:
 
-        #Rename each file based on file name parts
-        os.rename(fullPath, os.path.join(directory, convertedHex + extension))
-        renamedFileCount = renamedFileCount + 1
+            #Ignore first character of file name ('C' for Column), convert to hex
+            convertedHex = convertToHex(str(root[1:]))
+
+            #Rename each file based on file name parts
+            os.rename(fullPath, os.path.join(directory, convertedHex + extension))
+            renamedFileCount = renamedFileCount + 1
 
 #Rename 'Row' folders
 #Walking the directory twice, which is probably unnecessary
@@ -50,6 +54,17 @@ for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
             fullPath = os.path.join(dirpath, dirname)
             convertedHex = convertToHex(str(dirname[1:]))
             os.rename(fullPath, os.path.join(dirpath, convertedHex))
+            renamedFolderCount = renamedFolderCount + 1
+
+#Rename 'Level' folders
+#Walking the directory twice, which is probably unnecessary
+for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
+    for dirname in dirnames:
+        #Filter for directories that start with 'L' (Level directories)
+        if dirname[0] == 'L':
+            fullPath = os.path.join(dirpath, dirname)
+            #convertedHex = convertToHex(str(dirname[1:]))
+            os.rename(fullPath, os.path.join(dirpath, dirname[1:]))
             renamedFolderCount = renamedFolderCount + 1
 
 print 'Successfully converted {0} directory and {1} file names'.format(renamedFolderCount, renamedFileCount)
