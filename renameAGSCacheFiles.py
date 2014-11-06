@@ -1,28 +1,34 @@
 #-------------------------------------------------------------------------------
-# Name:        module1
-# Purpose:
+# Name:        renameAGSCacheFiles
+# Purpose:     Creating a cache for an image in ArcGIS for Server creates
+#              folders and files named with Level, Row, or Column identifiers
+#              and hexadecimal numbering.  To be used as a tile service in
+#              ArcGIS Online (or other places, I assume) the identifers need
+#              to be removed and the hexadecimal numbers need to be converted
+#              to integers
 #
 # Author:      Timothy Michael
 #
 # Created:     31/10/2014
 # Copyright:   (c) Timothy Michael 2014
-# Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
 def main():
     pass
 
+import datetime
 import os
 
 rootFolder = r'C:\TEMP\CacheTestService\Layers\_alllayers'
 validImageExtensions = ['.jpeg', '.jpg', '.png']
 
+renamedFileCount = 0
+renamedFolderCount = 0
+startTime = datetime.datetime.now()
+
 def convertToHex(inStr):
     convertedNum = int(inStr, 16)
     return str(convertedNum)
-
-renamedFileCount = 0
-renamedFolderCount = 0
 
 #Rename image tiles
 for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
@@ -46,7 +52,6 @@ for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
             renamedFileCount = renamedFileCount + 1
 
 #Rename 'Row' folders
-#Walking the directory twice, which is probably unnecessary
 for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
     for dirname in dirnames:
         #Filter for directories that start with 'R' (Row directories)
@@ -57,17 +62,18 @@ for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
             renamedFolderCount = renamedFolderCount + 1
 
 #Rename 'Level' folders
-#Walking the directory twice, which is probably unnecessary
 for dirpath, dirnames, files in os.walk(rootFolder, topdown=True):
     for dirname in dirnames:
         #Filter for directories that start with 'L' (Level directories)
         if dirname[0] == 'L':
             fullPath = os.path.join(dirpath, dirname)
-            #convertedHex = convertToHex(str(dirname[1:]))
             os.rename(fullPath, os.path.join(dirpath, dirname[1:]))
             renamedFolderCount = renamedFolderCount + 1
 
-print 'Successfully converted {0} directory and {1} file names'.format(renamedFolderCount, renamedFileCount)
+endTime = datetime.datetime.now()
+elapsedTime = str(endTime - startTime)
+
+print 'Renamed {0} directories and {1} files in {2}'.format(renamedFolderCount, renamedFileCount, elapsedTime)
 
 if __name__ == '__main__':
     main()
