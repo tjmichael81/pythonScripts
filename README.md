@@ -4,6 +4,8 @@ pythonScripts
 A collection of Python projects and utilities that I use / am working on
 
 File Descriptions:
+###createMapsByFeatureExtent.py
+- Given an input polygon feature class and template map, create a new .mxd for each polygon in the input feature class
 
 ###exportFeatureAttachments.py
 - Export feature attachments from an Esri geodatabase feature attachment table to a specified folder
@@ -18,3 +20,8 @@ File Descriptions:
 ###listDomainsForFields.py
 - For provided workspace, get feature datasets, feature classes, fields
 - Check if fields have domains.  If so, get domain name and values (range and coded domains)
+
+###renameAGSCacheFiles.py
+- Input _alllayers folder from an ArcGIS Server-created cache (exploded format)
+- Convert directory and file names from hexadecimal to integer
+- Once converted the cache is in the correct format to be used as a hosted tile service
