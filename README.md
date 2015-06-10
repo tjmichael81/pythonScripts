@@ -25,3 +25,6 @@ File Descriptions:
 - Input _alllayers folder from an ArcGIS Server-created cache (exploded format)
 - Convert directory and file names from hexadecimal to integer
 - Once converted the cache is in the correct format to be used as a hosted tile service
+
+###updatePointCoordinates.py
+- Update point coordinates (X, Y) based on new coordinates stored in the attribute table of the feature class
