@@ -112,7 +112,7 @@ def addCommonFields(inFeature, fieldList):
             print '{0} already exists in {1}'.format(field, inFeature)
 
 # Add line-specific fields
-def addLineFields(inputFC, fieldList):
+def addLineFields(inFeature, fieldList):
     print 'Adding line fields'
 
     # 'Geometry Length' field
@@ -122,13 +122,14 @@ def addLineFields(inputFC, fieldList):
         successMessage('Geometry Length')
 
     # Confirm that the 'Geometry Length' field does not exist in the field list
-    if 'GeometryLength' not in fieldList:
-        GeometryLength(inputFC)
+    field = 'GeometryLength'
+    if field not in fieldList:
+        GeometryLength(inFeature)
     else:
         print '{0} already exists in {1}'.format(field, inFeature)
 
 # Add polygon-specific fields
-def addPolygonFields(inputFC, fieldList):
+def addPolygonFields(inFeature, fieldList):
     print 'Adding polygon fields'
 
     # 'Geometry Area' field
@@ -138,8 +139,9 @@ def addPolygonFields(inputFC, fieldList):
         successMessage('Geometry Area')
 
     # Confirm that the 'Geometry Area' field does not exist in the field list
-    if 'GeometryArea' not in fieldList:
-        GeometryArea(inputFC)
+    field = 'GeometryArea'
+    if field not in fieldList:
+        GeometryArea(inFeature)
     else:
         print '{0} already exists in {1}'.format(field, inFeature)
 
@@ -154,50 +156,95 @@ def startMessage(fName):
 def successMessage(fName):
     print '{0} field added successfully'.format(fName)
     print '\n'
+
+def getDataType(inData):
+    '''Return the DataType from arcpy.Describe'''
+    dsc =  arcpy.Describe(inData)
+    return dsc.DataType
+
+def getShapeType(inFeature):
+    '''Return the FeatureType from arcpy.Describe'''
+    dsc = arcpy.Describe(inFeature)
+    return dsc.FeatureType
+
+def featureHandler(inFeature):
+    '''
+    Describe the input feature class to determine the ShapeType
+    Based on the ShapeType, send the feature to the correct function(s)
+    to add new fields
+    '''
+
+    dsc = arcpy.Describe(inFeature)
+
+    if dsc.shapeType == 'Point':
+        print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
+
+        # Create a list of fields to compare against
+        fieldList = createFieldList(inFeature)
+        addCommonFields(inFeature, fieldList)
+
+    elif dsc.shapeType == 'Polyline':
+        print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
+
+        # Create a list of fields to compare against
+        fieldList = createFieldList(inFeature)
+
+        addCommonFields(inFeature, fieldList)
+        addLineFields(inFeature, fieldList)
+
+    elif dsc.shapeType == 'Polygon':
+        print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
+
+        # Create a list of fields to compare against
+        fieldList = createFieldList(inFeature)
+
+        addCommonFields(inFeature, fieldList)
+        addPolygonFields(inFeature, fieldList)
+
+    else:
+        print '{0} is not a valid feature type.'.format(dsc.name)
+
 ###############################################################################
 
 #######################################
-# Input feature (single features for now)
-inData = r'C:\TEMP\temp.gdb\polygonFC'
+# Input data
+inData = r'C:\TEMP\temp.gdb\AdministrativeArea'
 #######################################
 
 #######################################
+# Get the data type of the input data
+dataType = getDataType(inData)
+# Workspace, FeatureDataset, FeatureClass
+
+if dataType == 'FeatureClass':
+    # Only dealing with one feature class
+    featureHandler(inData)
+
+elif dataType == 'FeatureDataset':
+    # Feature Dataset - add new fields to all features in the dataset
+    # Create a list of the features in the dataset and send to handler
+    arcpy.env.workspace = inData
+    fcList = arcpy.ListFeatureClasses()
+    for fc in fcList:
+        featureHandler(fc)
+
+elif dataType == 'Workspace':
+    # Workspace - add fields to features within feature datasets
+    # and any stand-alone feature classes
+
+    arcpy.env.workspace = inData
+
+    # Handle feature datasets within the workspace
+    for ds in arcpy.ListDatasets:
+        print 'Finish this'
+
+
+
+    # Handle standalone feature classes within the workspace
 
 
 
 
-
-
-
-
-
-# Determine the shape type for the input feature
-dsc = arcpy.Describe(inData)
-
-if dsc.shapeType == 'Point':
-    print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
-
-    # Create a list of fields to compare against
-    fieldList = createFieldList(inData)
-    addCommonFields(inData, fieldList)
-
-elif dsc.shapeType == 'Polyline':
-    print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
-
-    # Create a list of fields to compare against
-    fieldList = createFieldList(inData)
-
-    addCommonFields(inData, fieldList)
-    addLineFields(inData, fieldList)
-
-elif dsc.shapeType == 'Polygon':
-    print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
-
-    # Create a list of fields to compare against
-    fieldList = createFieldList(inData)
-
-    addCommonFields(inData, fieldList)
-    addPolygonFields(inData, fieldList)
 
 
 
