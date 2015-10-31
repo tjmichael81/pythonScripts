@@ -20,9 +20,6 @@ def main():
 #######################################
 import arcpy
 
-# Input feature (single features for now)
-inData = r'C:\TEMP\temp.gdb\pointFC'
-
 #######################################
 # Script Functions
 #######################################
@@ -31,14 +28,6 @@ inData = r'C:\TEMP\temp.gdb\pointFC'
 def addCommonFields(inFeature, fieldList):
     print 'Adding common fields...'
     print '\n\n'
-
-    # Set up fields and supporting functions
-    def startMessage(fName):
-        print 'Adding {0} field'.format(fName)
-
-    def successMessage(fName):
-        print '{0} field added successfully'.format(fName)
-        print '\n'
 
     # Create a list containing all of the possible 'commmon fields'
     # This list will be used to compare against the list of fields
@@ -126,14 +115,61 @@ def addCommonFields(inFeature, fieldList):
 def addLineFields(inputFC, fieldList):
     print 'Adding line fields'
 
+    # 'Geometry Length' field
+    def GeometryLength(inFeature):
+        startMessage('Geometry Length')
+        arcpy.AddField_management(inFeature, 'GeometryLength', 'DOUBLE', None, None, None, 'Geometry Length', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Geometry Length')
+
+    # Confirm that the 'Geometry Length' field does not exist in the field list
+    if 'GeometryLength' not in fieldList:
+        GeometryLength(inputFC)
+    else:
+        print '{0} already exists in {1}'.format(field, inFeature)
+
 # Add polygon-specific fields
 def addPolygonFields(inputFC, fieldList):
     print 'Adding polygon fields'
+
+    # 'Geometry Area' field
+    def GeometryArea(inFeature):
+        startMessage('Geometry Area')
+        arcpy.AddField_management(inFeature, 'GeometryArea', 'DOUBLE', None, None, None, 'Geometry Area', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Geometry Area')
+
+    # Confirm that the 'Geometry Area' field does not exist in the field list
+    if 'GeometryArea' not in fieldList:
+        GeometryArea(inputFC)
+    else:
+        print '{0} already exists in {1}'.format(field, inFeature)
 
 def createFieldList(inputFeature):
     '''Return a list of fields from the input feature'''
     fieldList = [f.name for f in arcpy.ListFields(inputFeature,"*","All")]
     return fieldList
+
+def startMessage(fName):
+    print 'Adding {0} field'.format(fName)
+
+def successMessage(fName):
+    print '{0} field added successfully'.format(fName)
+    print '\n'
+###############################################################################
+
+#######################################
+# Input feature (single features for now)
+inData = r'C:\TEMP\temp.gdb\polygonFC'
+#######################################
+
+#######################################
+
+
+
+
+
+
+
+
 
 # Determine the shape type for the input feature
 dsc = arcpy.Describe(inData)
@@ -141,7 +177,6 @@ dsc = arcpy.Describe(inData)
 if dsc.shapeType == 'Point':
     print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
 
-    # Make sure there aren't any name conflicts with existing fields
     # Create a list of fields to compare against
     fieldList = createFieldList(inData)
     addCommonFields(inData, fieldList)
@@ -149,7 +184,6 @@ if dsc.shapeType == 'Point':
 elif dsc.shapeType == 'Polyline':
     print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
 
-    # Make sure there aren't any name conflicts with existing fields
     # Create a list of fields to compare against
     fieldList = createFieldList(inData)
 
@@ -159,7 +193,6 @@ elif dsc.shapeType == 'Polyline':
 elif dsc.shapeType == 'Polygon':
     print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
 
-    # Make sure there aren't any name conflicts with existing fields
     # Create a list of fields to compare against
     fieldList = createFieldList(inData)
 
