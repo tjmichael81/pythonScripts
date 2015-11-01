@@ -208,7 +208,7 @@ def featureHandler(inFeature):
 
 #######################################
 # Input data
-inData = r'C:\TEMP\temp.gdb\AdministrativeArea'
+inData = r'C:\TEMP\testing\templategeodatdabase.gdb'
 #######################################
 
 #######################################
@@ -235,26 +235,16 @@ elif dataType == 'Workspace':
     arcpy.env.workspace = inData
 
     # Handle feature datasets within the workspace
-    for ds in arcpy.ListDatasets:
-        print 'Finish this'
-
-
+    fdList = [fd for fd in arcpy.ListDatasets(None, 'Feature')]
+    for featureDataset in fdList:
+        fcList = [fc for fc in arcpy.ListFeatureClasses(None, None, featureDataset)]
+        for featureClass in fcList:
+            featureHandler(featureClass)
 
     # Handle standalone feature classes within the workspace
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    fcList =[fc for fc in arcpy.ListFeatureClasses()]
+    for featureClass in fcList:
+        featureHandler(featureClass)
 
 if __name__ == '__main__':
     main()
