@@ -1,19 +1,12 @@
 ################################################################################
 # addTerraFlexAutoFields
 #
-# Add field(s) to an input feature that correspond to each of the 'Auto Fields'
+# Add field(s) to input features that correspond to each of the 'Auto Fields'
 # that are available in Trimble's TerraFlex data collection software
 ################################################################################
 
 def main():
     pass
-
-# TODO
-#
-# Currently adding / altering features individually.  Add capability to add
-# to all features, etc. if a GDB or feature dataset is provided as the data
-# source.
-#
 
 #######################################
 # Import Modules
@@ -24,58 +17,63 @@ import arcpy
 # Script Functions
 #######################################
 
-# Add common fields
+# Common fields
 def addCommonFields(inFeature, fieldList):
-    print 'Adding common fields...'
-    print '\n\n'
+    '''Adds fields common to all feature types'''
 
-    # Create a list containing all of the possible 'commmon fields'
-    # This list will be used to compare against the list of fields
-    # for the input feature, and then to call the function for each field
+    print 'Adding common fields to {0}'.format(inFeature)
+    print '\n'
+
+    # This list of fields will be used to compare against the list of fields
+    # for the input feature, and then to call the function to add new fields
     commonFields = ['CollectedBy', 'DeviceType', 'DeviceID', 'CorrectionStatus',
     'CorrectionSource', 'CreateDate', 'UpdateDate', 'EstimatedAccuracy',
     'GeometryCaptureType', 'PDOP', 'HDOP']
 
+    #######################################
+    # Field Configurations
+    #######################################
+
     # 'Collected By' field
     def CollectedBy(inFeature):
         startMessage('Collected By')
-        arcpy.AddField_management(inFeature, 'CollectedBy', 'TEXT', None, None, '100', 'Collected By', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'CollectedBy', 'TEXT', None, None, textFieldLength, 'Collected By', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Collected By')
 
     # 'Device Type' field
     def DeviceType(inFeature):
         startMessage('Device Type')
-        arcpy.AddField_management(inFeature, 'DeviceType', 'TEXT', None, None, '100', 'Device Type', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'DeviceType', 'TEXT', None, None, textFieldLength, 'Device Type', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Device Type')
 
     # 'Device ID' field
     def DeviceID(inFeature):
         startMessage('Device ID')
-        arcpy.AddField_management(inFeature, 'DeviceID', 'TEXT', None, None, '100', 'Device ID', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'DeviceID', 'TEXT', None, None, textFieldLength, 'Device ID', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Device ID')
 
     # 'Correction Status' field
     def CorrectionStatus(inFeature):
         startMessage('Correction Status')
-        arcpy.AddField_management(inFeature, 'CorrectionStatus', 'TEXT', None, None, '100', 'Correction Status', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'CorrectionStatus', 'TEXT', None, None, textFieldLength, 'Correction Status', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Correction Status')
 
     # 'Correction Source' field
     def CorrectionSource(inFeature):
         startMessage('Correction Source')
-        arcpy.AddField_management(inFeature, 'CorrectionSource', 'TEXT', None, None, '100', 'Correction Source', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'CorrectionSource', 'TEXT', None, None, textFieldLength, 'Correction Source', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Correction Source')
 
     # 'Create Date' field
     def CreateDate(inFeature):
         startMessage('Create Date')
-        arcpy.AddField_management(inFeature, 'CreateDate', 'TEXT', None, None, '100', 'Create Date', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'CreateDate', 'TEXT', None, None, textFieldLength, 'Create Date', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Create Date')
 
     # 'Update Date' field
     def UpdateDate(inFeature):
         startMessage('Update Date')
-        arcpy.AddField_management(inFeature, 'UpdateDate', 'TEXT', None, None, '100', 'Update Date', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'UpdateDate', 'TEXT', None, None, textFieldLength, 'Update Date', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Update Date')
 
     # 'Estimated Accuracy' field
@@ -87,7 +85,7 @@ def addCommonFields(inFeature, fieldList):
     # 'Geometry Capture Type' field
     def GeometryCaptureType(inFeature):
         startMessage('Geometry Capture Type')
-        arcpy.AddField_management(inFeature, 'GeometryCaptureType', 'TEXT', None, None, '100', 'Geometry Capture Type', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'GeometryCaptureType', 'TEXT', None, None, textFieldLength, 'Geometry Capture Type', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('Geometry Capture Type')
 
     # 'PDOP' field
@@ -102,22 +100,26 @@ def addCommonFields(inFeature, fieldList):
         arcpy.AddField_management(inFeature, 'HDOP', 'DOUBLE', None, None, None, 'HDOP', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('HDOP')
 
+    # This locals() thing is awesome
+    # https://docs.python.org/2/library/functions.html#locals
+    # http://stackoverflow.com/questions/3061/calling-a-function-of-a-module-from-a-string-with-the-functions-name-in-python
     localFunctions = locals()
 
-
+    # Compare the fields in the commonFields list in this function to the
+    # list of fields for the input feature.  For each field that does not
+    #match a field from the input, call the corresponding function to
+    # add the field
     for field in commonFields:
         if field not in fieldList:
-            # This is awesome
-            # https://docs.python.org/2/library/functions.html#locals
-            # http://stackoverflow.com/questions/3061/calling-a-function-of-a-module-from-a-string-with-the-functions-name-in-python
-            #locals()[field](inFeature)
             localFunctions[field](inFeature)
         else:
             print '{0} already exists in {1}'.format(field, inFeature)
 
-# Add line-specific fields
+# Line fields
 def addLineFields(inFeature, fieldList):
-    print 'Adding line fields'
+    '''Adds fields specific to line features'''
+
+    print 'Adding line fields to {0}'.format(inFeature)
 
     # 'Geometry Length' field
     def GeometryLength(inFeature):
@@ -132,8 +134,10 @@ def addLineFields(inFeature, fieldList):
     else:
         print '{0} already exists in {1}'.format(field, inFeature)
 
-# Add polygon-specific fields
+# Polygon fields
 def addPolygonFields(inFeature, fieldList):
+    '''Adds fields specific to polygon features'''
+
     print 'Adding polygon fields'
 
     # 'Geometry Area' field
@@ -211,8 +215,9 @@ def featureHandler(inFeature):
 ###############################################################################
 
 #######################################
-# Input data
+# Script Variables
 inData = r'C:\TEMP\testing\templategeodatdabase.gdb\FacilitySite'
+textFieldLength = 100
 #######################################
 
 #######################################
