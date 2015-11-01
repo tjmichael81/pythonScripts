@@ -102,12 +102,16 @@ def addCommonFields(inFeature, fieldList):
         arcpy.AddField_management(inFeature, 'HDOP', 'DOUBLE', None, None, None, 'HDOP', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('HDOP')
 
+    localFunctions = locals()
+
+
     for field in commonFields:
         if field not in fieldList:
             # This is awesome
             # https://docs.python.org/2/library/functions.html#locals
             # http://stackoverflow.com/questions/3061/calling-a-function-of-a-module-from-a-string-with-the-functions-name-in-python
-            locals()[field](inFeature)
+            #locals()[field](inFeature)
+            localFunctions[field](inFeature)
         else:
             print '{0} already exists in {1}'.format(field, inFeature)
 
@@ -208,7 +212,7 @@ def featureHandler(inFeature):
 
 #######################################
 # Input data
-inData = r'C:\TEMP\testing\templategeodatdabase.gdb'
+inData = r'C:\TEMP\testing\templategeodatdabase.gdb\FacilitySite'
 #######################################
 
 #######################################
