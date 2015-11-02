@@ -4,6 +4,13 @@ pythonScripts
 A collection of Python projects and utilities that I use / am working on
 
 File Descriptions:
+###addTerraFlexAutoFields.py
+- Trimble's TerraFlex data collection software allows users to configure a number of 'Auto Fields' that will populate automatically 
+with GPS metadata.  This script can be used to extend the schema of existing data with new fields that match the Auto Fields, so 
+data from TerraFlex can be imported without losing the GPS metadata.
+- [Trimble TerraFlex](http://www.trimbleinsphere.com/insphere/terraflex-data-collection)
+
+
 ###createMapsByFeatureExtent.py
 - Given an input polygon feature class and template map, create a new .mxd for each polygon in the input feature class
 
