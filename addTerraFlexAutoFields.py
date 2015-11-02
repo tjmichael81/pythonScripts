@@ -12,6 +12,7 @@ def main():
 # Import Modules
 #######################################
 import arcpy
+import datetime
 
 #######################################
 # Script Functions
@@ -236,6 +237,7 @@ def featureHandler(inFeature):
 # Script Variables
 inData = r'C:\TEMP\testing\templategeodatdabase.gdb'
 textFieldLength = 100
+startTime = datetime.datetime.now()
 #######################################
 
 #######################################
@@ -272,6 +274,13 @@ elif dataType == 'Workspace':
     fcList =[fc for fc in arcpy.ListFeatureClasses()]
     for featureClass in fcList:
         featureHandler(featureClass)
+#######################################
 
+#######################################
+# Script finish
+endTime = datetime.datetime.now()
+timeDelta = str(endTime - startTime)
+print 'Script completed in {0}'.format(timeDelta)
+#######################################
 if __name__ == '__main__':
     main()
