@@ -31,7 +31,7 @@ def addCommonFields(inFeature, fieldList):
 
     # This list of fields will be used to compare against the list of fields
     # for the input feature, and then to call the function to add new fields
-    commonFields = ['ESRIGNSS_RECEIVER', 'ESRIGNSS _H_RMS', 'ESRIGNSS_V_RMS', 'ESRIGNSS_LATITUDE', 'ESRIGNSS_LONGITUDE',
+    commonFields = ['ESRIGNSS_RECEIVER', 'ESRIGNSS_H_RMS', 'ESRIGNSS_V_RMS', 'ESRIGNSS_LATITUDE', 'ESRIGNSS_LONGITUDE',
                     'ESRIGNSS_ALTITUDE', 'ESRIGNSS_PDOP', 'ESRIGNSS_HDOP', 'ESRIGNSS_VDOP', 'ESRIGNSS_FIXTYPE',
                     'ESRIGNSS_NUMSATS', 'ESRIGNSS_FIXDATETIME']
 
@@ -39,71 +39,77 @@ def addCommonFields(inFeature, fieldList):
     # Field Configurations
     #######################################
 
-    # 'Collected By' field
-    def CollectedBy(inFeature):
-        startMessage('Collected By')
-        arcpy.AddField_management(inFeature, 'CollectedBy', 'TEXT', None, None, textFieldLength, 'Collected By', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Collected By')
+    # 'GNSS Receiver' field
+    def ESRIGNSS_RECEIVER(inFeature):
+        startMessage('Receiver Name')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_RECEIVER', 'TEXT', None, None, 50, 'Receiver Name', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Receiver Name')
 
-    # 'Device Type' field
-    def DeviceType(inFeature):
-        startMessage('Device Type')
-        arcpy.AddField_management(inFeature, 'DeviceType', 'TEXT', None, None, textFieldLength, 'Device Type', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Device Type')
+    # 'H RMS' field
+    def ESRIGNSS_H_RMS(inFeature):
+        startMessage('Horizontal Accuracy')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS _H_RMS', 'DOUBLE', None, None, None, 'Horizontal Accuracy (m)', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Horizontal Accuracy')
 
-    # 'Device ID' field
-    def DeviceID(inFeature):
-        startMessage('Device ID')
-        arcpy.AddField_management(inFeature, 'DeviceID', 'TEXT', None, None, textFieldLength, 'Device ID', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Device ID')
+    # 'V RMS' field
+    def ESRIGNSS_V_RMS(inFeature):
+        startMessage('Vertical Accuracy')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_V_RMS', 'DOUBLE', None, None, None, 'Vertical Accuracy (m)', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Vertical Accuracy')
 
-    # 'Correction Status' field
-    def CorrectionStatus(inFeature):
-        startMessage('Correction Status')
-        arcpy.AddField_management(inFeature, 'CorrectionStatus', 'TEXT', None, None, textFieldLength, 'Correction Status', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Correction Status')
+    # 'Latitude' field
+    def ESRIGNSS_LATITUDE(inFeature):
+        startMessage('Latitude')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_LATITUDE', 'DOUBLE', None, None, None, 'Latitude', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Latitude')
 
-    # 'Correction Source' field
-    def CorrectionSource(inFeature):
-        startMessage('Correction Source')
-        arcpy.AddField_management(inFeature, 'CorrectionSource', 'TEXT', None, None, textFieldLength, 'Correction Source', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Correction Source')
+    # 'Longitude' field
+    def ESRIGNSS_LONGITUDE(inFeature):
+        startMessage('Longitude')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_LONGITUDE', 'DOUBLE', None, None, None, 'Longitude', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Longitude')
 
-    # 'Create Date' field
-    def CreateDate(inFeature):
-        startMessage('Create Date')
-        arcpy.AddField_management(inFeature, 'CreateDate', 'TEXT', None, None, textFieldLength, 'Create Date', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Create Date')
-
-    # 'Update Date' field
-    def UpdateDate(inFeature):
-        startMessage('Update Date')
-        arcpy.AddField_management(inFeature, 'UpdateDate', 'TEXT', None, None, textFieldLength, 'Update Date', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Update Date')
-
-    # 'Estimated Accuracy' field
-    def EstimatedAccuracy(inFeature):
-        startMessage('Estimated Accuracy')
-        arcpy.AddField_management(inFeature, 'EstimatedAccuracy', 'DOUBLE', None, None, None, 'Estimated Accuracy', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Estimated Accuracy')
-
-    # 'Geometry Capture Type' field
-    def GeometryCaptureType(inFeature):
-        startMessage('Geometry Capture Type')
-        arcpy.AddField_management(inFeature, 'GeometryCaptureType', 'TEXT', None, None, textFieldLength, 'Geometry Capture Type', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Geometry Capture Type')
+    # 'Altitude' field
+    def ESRIGNSS_ALTITUDE(inFeature):
+        startMessage('Altitude')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_ALTITUDE', 'DOUBLE', None, None, None, 'Altitude', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Altitude')
 
     # 'PDOP' field
-    def PDOP(inFeature):
+    def ESRIGNSS_PDOP(inFeature):
         startMessage('PDOP')
-        arcpy.AddField_management(inFeature, 'PDOP', 'DOUBLE', None, None, None, 'PDOP', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_PDOP', 'DOUBLE', None, None, None, 'PDOP', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('PDOP')
 
     # 'HDOP' field
-    def HDOP(inFeature):
+    def ESRIGNSS_HDOP(inFeature):
         startMessage('HDOP')
-        arcpy.AddField_management(inFeature, 'HDOP', 'DOUBLE', None, None, None, 'HDOP', 'NULLABLE', 'NON_REQUIRED', None)
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_HDOP', 'DOUBLE', None, None, None, 'HDOP', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('HDOP')
+
+    # 'VDOP' field
+    def ESRIGNSS_VDOP(inFeature):
+        startMessage('VDOP')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_VDOP', 'DOUBLE', None, None, None, 'VDOP', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('VDOP')
+
+    # 'Fix Type' field
+    def ESRIGNSS_FIXTYPE(inFeature):
+        startMessage('Fix Type')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_FIXTYPE', 'SHORT', None, None, None, 'Fix Type', 'NULLABLE', 'NON_REQUIRED', 'GNSSFixType')
+        successMessage('Fix Type')
+
+    # 'Number of Satellites' field
+    def ESRIGNSS_NUMSATS(inFeature):
+        startMessage('Number of Satellites')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_NUMSATS', 'SHORT', None, None, None, 'Number of Satellites', 'NULLABLE', 'NON_REQUIRED', 'NumSatellites')
+        successMessage('Number of Satellites')
+
+    # 'Fix Time' field
+    def ESRIGNSS_FIXDATETIME(inFeature):
+        startMessage('Fix Time')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_FIXDATETIME', 'DATE', None, None, None, 'Fix Time', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('Fix Time')
 
     # This locals() thing is awesome
     # https://docs.python.org/2/library/functions.html#locals
