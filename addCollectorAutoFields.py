@@ -31,9 +31,9 @@ def addCommonFields(inFeature, fieldList):
 
     # This list of fields will be used to compare against the list of fields
     # for the input feature, and then to call the function to add new fields
-    commonFields = ['CollectedBy', 'DeviceType', 'DeviceID', 'CorrectionStatus',
-    'CorrectionSource', 'CreateDate', 'UpdateDate', 'EstimatedAccuracy',
-    'GeometryCaptureType', 'PDOP', 'HDOP']
+    commonFields = ['ESRIGNSS_RECEIVER', 'ESRIGNSS _H_RMS', 'ESRIGNSS_V_RMS', 'ESRIGNSS_LATITUDE', 'ESRIGNSS_LONGITUDE',
+                    'ESRIGNSS_ALTITUDE', 'ESRIGNSS_PDOP', 'ESRIGNSS_HDOP', 'ESRIGNSS_VDOP', 'ESRIGNSS_FIXTYPE',
+                    'ESRIGNSS_NUMSATS', 'ESRIGNSS_FIXDATETIME']
 
     #######################################
     # Field Configurations
