@@ -176,38 +176,48 @@ def featureHandler(inFeature):
 
     elif dsc.shapeType == 'Polyline':
         print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
+        print 'GPS Metadata fields not currently supported for {0} features'.format(dsc.shapeType)
 
+        # Leaving this in place, but commenting it out for now.
+        # High-accuracy does not support adding GPS metadata to line features at this time
+        '''
         # Create a list of fields to compare against
         fieldList = createFieldList(inFeature)
 
         addCommonFields(inFeature, fieldList)
         addLineFields(inFeature, fieldList)
+        '''
 
     elif dsc.shapeType == 'Polygon':
         print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
+        print 'GPS Metadata fields not currently supported for {0} features'.format(dsc.shapeType)
 
+        # Leaving this in place, but commenting it out for now.
+        # High-accuracy does not support adding GPS metadata to polygon features at this time
+        '''
         # Create a list of fields to compare against
         fieldList = createFieldList(inFeature)
 
         addCommonFields(inFeature, fieldList)
         addPolygonFields(inFeature, fieldList)
+        '''
 
     else:
         print '{0} is not a valid feature type.'.format(dsc.name)
 
-###############################################################################
+########################################################################
+# Script variables
+########################################################################
 
-#######################################
-# Script Variables
+# inData can be a geodatabase, feature dataset, or feature class
 inData = r'C:\TEMP\CincinnatiBell\CincinnatiBell_TerraFlex.gdb\Poles_2'
-textFieldLength = 100
 startTime = datetime.datetime.now()
-#######################################
 
-#######################################
+########################################################################
+# Begin main script / processing
+########################################################################
 # Get the data type of the input data
 dataType = getDataType(inData)
-# Workspace, FeatureDataset, FeatureClass
 
 if dataType == 'FeatureClass':
     # Only dealing with one feature class
