@@ -235,7 +235,7 @@ def featureHandler(inFeature):
 
 #######################################
 # Script Variables
-inData = r'C:\TEMP\testing\templategeodatdabase.gdb'
+inData = r'C:\TEMP\CincinnatiBell\CincinnatiBell_TerraFlex.gdb\Poles_2'
 textFieldLength = 100
 startTime = datetime.datetime.now()
 #######################################
