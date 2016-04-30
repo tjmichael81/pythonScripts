@@ -126,61 +126,6 @@ def addCommonFields(inFeature, fieldList):
         else:
             print '{0} already exists in {1}'.format(field, inFeature)
 
-# Line fields
-def addLineFields(inFeature, fieldList):
-    '''Adds fields specific to line features'''
-
-    print 'Adding line fields to {0}'.format(inFeature)
-
-    # This list of fields will be used to compare against the list of fields
-    # for the input feature, and then to call the function to add new fields
-    lineFields = ['GeometryLength']
-
-    # 'Geometry Length' field
-    def GeometryLength(inFeature):
-        startMessage('Geometry Length')
-        arcpy.AddField_management(inFeature, 'GeometryLength', 'DOUBLE', None, None, None, 'Geometry Length', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Geometry Length')
-
-    localFunctions = locals()
-
-    # Compare the fields in the lineFields list in this function to the
-    # list of fields for the input feature.  For each field that does not
-    # match a field from the input, call the corresponding function to
-    # add the field
-    for field in lineFields:
-        if field not in fieldList:
-            localFunctions[field](inFeature)
-        else:
-            print '{0} already exists in {1}'.format(field, inFeature)
-
-# Polygon fields
-def addPolygonFields(inFeature, fieldList):
-    '''Adds fields specific to polygon features'''
-
-    print 'Adding polygon fields'
-
-    # This list of fields will be used to compare against the list of fields
-    # for the input feature, and then to call the function to add new fields
-    polygonFields = ['GeometryArea']
-
-    # 'Geometry Area' field
-    def GeometryArea(inFeature):
-        startMessage('Geometry Area')
-        arcpy.AddField_management(inFeature, 'GeometryArea', 'DOUBLE', None, None, None, 'Geometry Area', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('Geometry Area')
-
-    localFunctions = locals()
-
-    # Compare the fields in the polygonFields list in this function to the
-    # list of fields for the input feature.  For each field that does not
-    # match a field from the input, call the corresponding function to
-    # add the field
-    for field in polygonFields:
-        if field not in fieldList:
-            localFunctions[field](inFeature)
-        else:
-            print '{0} already exists in {1}'.format(field, inFeature)
 
 def createFieldList(inputFeature):
     '''Return a list of fields from the input feature'''
