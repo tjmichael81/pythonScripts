@@ -111,7 +111,7 @@ def addCommonFields(inFeature, fieldList):
     # match a field from the input, call the corresponding function to
     # add the field
     for field in commonFields:
-        if field not in fieldList:
+        if field.lower() not in fieldList:
             localFunctions[field](inFeature)
         else:
             print '{0} already exists in {1}'.format(field, inFeature)
@@ -139,7 +139,7 @@ def addLineFields(inFeature, fieldList):
     # match a field from the input, call the corresponding function to
     # add the field
     for field in lineFields:
-        if field not in fieldList:
+        if field.lower() not in fieldList:
             localFunctions[field](inFeature)
         else:
             print '{0} already exists in {1}'.format(field, inFeature)
@@ -167,14 +167,14 @@ def addPolygonFields(inFeature, fieldList):
     # match a field from the input, call the corresponding function to
     # add the field
     for field in polygonFields:
-        if field not in fieldList:
+        if field.lower() not in fieldList:
             localFunctions[field](inFeature)
         else:
             print '{0} already exists in {1}'.format(field, inFeature)
 
 def createFieldList(inputFeature):
     '''Return a list of fields from the input feature'''
-    fieldList = [f.name for f in arcpy.ListFields(inputFeature,"*","All")]
+    fieldList = [f.name.lower() for f in arcpy.ListFields(inputFeature,"*","All")]
     return fieldList
 
 def startMessage(fName):
@@ -235,7 +235,7 @@ def featureHandler(inFeature):
 
 #######################################
 # Script Variables
-inData = r'C:\TEMP\CincinnatiBell\CincinnatiBell_TerraFlex.gdb\Poles_2'
+inData = r'Database Connections\GISDBTEST on GEO-DEMO1.sde\GISDBTEST.DBO.TerraFlex_DataCollection'
 textFieldLength = 100
 startTime = datetime.datetime.now()
 #######################################
