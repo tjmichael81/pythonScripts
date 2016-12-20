@@ -15,6 +15,7 @@ import datetime
 # Script Variables
 ##############################################################################
 # Connection / path to root geodatabase
+# Will be used to check for / add required domains
 inWorkspace = r''
 
 # Input dataset - could be geodatabase, feature dataset, stand-alone feature
@@ -33,8 +34,8 @@ def addPointFields(inFeature, fieldList):
     # for the input feature, and then to call the function to add new fields
     pointFields = ['ESRIGNSS_RECEIVER', 'ESRIGNSS_H_RMS', 'ESRIGNSS_V_RMS',
     'ESRIGNSS_LATITUDE', 'ESRIGNSS_LONGITUDE', 'ESRIGNSS_ALTITUDE', 'ESRIGNSS_PDOP',
-    'ESRIGNSS_VDOP', 'ESRIGNSS_HDOP', 'ESRIGNSS_FIXTYPE', 'ESRIGNSS_NUMSATS',
-    'ESRIGNSS_FIXDATETIME']
+    'ESRIGNSS_VDOP', 'ESRIGNSS_HDOP', 'ESRIGNSS_FIXTYPE', 'ESRIGNSS_CORRECTIONAGE',
+    'ESRIGNSS_STATIONID', 'ESRIGNSS_NUMSATS', 'ESRIGNSS_FIXDATETIME']
 
     #######################################
     # Field Configurations
@@ -75,20 +76,30 @@ def addPointFields(inFeature, fieldList):
         arcpy.AddField_management(inFeature, 'ESRIGNSS_PDOP', 'DOUBLE', None, None, None, 'PDOP', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('ESRIGNSS_PDOP')
 
-    def ESRIGNSS_VDOP(inFeature):
-        startMessage('ESRIGNSS_VDOP')
-        arcpy.AddField_management(inFeature, 'ESRIGNSS_VDOP', 'DOUBLE', None, None, None, 'VDOP', 'NULLABLE', 'NON_REQUIRED', None)
-        successMessage('ESRIGNSS_VDOP')
-
     def ESRIGNSS_HDOP(inFeature):
         startMessage('ESRIGNSS_HDOP')
         arcpy.AddField_management(inFeature, 'ESRIGNSS_HDOP', 'DOUBLE', None, None, None, 'HDOP', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('ESRIGNSS_HDOP')
 
+    def ESRIGNSS_VDOP(inFeature):
+        startMessage('ESRIGNSS_VDOP')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_VDOP', 'DOUBLE', None, None, None, 'VDOP', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('ESRIGNSS_VDOP')
+
     def ESRIGNSS_FIXTYPE(inFeature):
         startMessage('ESRIGNSS_FIXTYPE')
         arcpy.AddField_management(inFeature, 'ESRIGNSS_FIXTYPE', 'SHORT', None, None, None, 'Fix Type', 'NULLABLE', 'NON_REQUIRED', 'GNSSFixType')
         successMessage('ESRIGNSS_FIXTYPE')
+
+    def ESRIGNSS_CORRECTIONAGE(inFeature):
+        startMessage('ESRIGNSS_CORRECTIONAGE')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_CORRECTIONAGE', 'DOUBLE', None, None, None, 'Correction Age', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('ESRIGNSS_CORRECTIONAGE')
+
+    def ESRIGNSS_STATIONID(inFeature):
+        startMessage('ESRIGNSS_STATIONID')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_STATIONID', 'SHORT', None, None, None, 'Station ID', 'NULLABLE', 'NON_REQUIRED', 'NumSatellites')
+        successMessage('ESRIGNSS_STATIONID')
 
     def ESRIGNSS_NUMSATS(inFeature):
         startMessage('ESRIGNSS_NUMSATS')
@@ -163,13 +174,14 @@ def getShapeType(inFeature):
     '''Return the FeatureType from arcpy.Describe'''
     dsc = arcpy.Describe(inFeature)
     return dsc.FeatureType
+
 ##############################################################################
 # Do some actual stuff
 ##############################################################################
 startTime = datetime.datetime.now()
 
 # Check for / add required GPS metadata domains
-# Using 'GNSSFixType' and 'NumSatellites' names in this script
+# GNSSFixType, NumSatellites, NumStationID
 domain_list = [domain.name.lower() for domain in arcpy.da.ListDomains(inWorkspace)]
 
 # Check for / add GNSSFixType
@@ -190,9 +202,18 @@ if 'numsatellites' in domain_list:
     print 'NumSatellites domain found in workspace'
 
 else:
-    arcpy.CreateDomain_management(gdb, 'NumSatellites', 'Number of Satellites', 'SHORT', 'RANGE', 'DUPLICATE', 'DEFAULT')
-    arcpy.SetValueForRangeDomain_management(gdb, 'NumSatellites', '0', '99')
+    arcpy.CreateDomain_management(inWorkspace, 'NumSatellites', 'Number of Satellites', 'SHORT', 'RANGE', 'DUPLICATE', 'DEFAULT')
+    arcpy.SetValueForRangeDomain_management(inWorkspace, 'NumSatellites', '0', '99')
     print 'NumSatellites domain added'
+
+# Check for / add NumStationID
+if 'numstationid' in domain_list:
+    print 'NumStationID domain found in workspace'
+
+else:
+    arcpy.CreateDomain_management(inWorkspace, 'NumStationID', 'Station ID', 'SHORT', 'RANGE', 'DUPLICATE', 'DEFAULT')
+    arcpy.SetValueForRangeDomain_management(inWorkspace, 'NumSatellites', '0', '1023')
+    print 'NumStationID domain added'
 
 # Get the data type of the input data
 # (geodatabase, feature dataset, feature class)
