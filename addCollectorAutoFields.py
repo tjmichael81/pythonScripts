@@ -16,10 +16,10 @@ import datetime
 ##############################################################################
 # Connection / path to root geodatabase
 # Will be used to check for / add required domains
-inWorkspace = r''
+inWorkspace = r'C:\TEMP\WaterUtilities.gdb'
 
 # Input dataset - could be geodatabase, feature dataset, stand-alone feature
-inData = r''
+inData = r'C:\TEMP\WaterUtilities.gdb'
 
 ##############################################################################
 # Script Functions
@@ -98,7 +98,7 @@ def addPointFields(inFeature, fieldList):
 
     def ESRIGNSS_STATIONID(inFeature):
         startMessage('ESRIGNSS_STATIONID')
-        arcpy.AddField_management(inFeature, 'ESRIGNSS_STATIONID', 'SHORT', None, None, None, 'Station ID', 'NULLABLE', 'NON_REQUIRED', 'NumSatellites')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_STATIONID', 'SHORT', None, None, None, 'Station ID', 'NULLABLE', 'NON_REQUIRED', 'NumStationID')
         successMessage('ESRIGNSS_STATIONID')
 
     def ESRIGNSS_NUMSATS(inFeature):
@@ -110,6 +110,26 @@ def addPointFields(inFeature, fieldList):
         startMessage('ESRIGNSS_FIXDATETIME')
         arcpy.AddField_management(inFeature, 'ESRIGNSS_FIXDATETIME', 'DATE', None, None, None, 'Fix Time', 'NULLABLE', 'NON_REQUIRED', None)
         successMessage('ESRIGNSS_FIXDATETIME')
+
+    def ESRIGNSS_AVG_H_RMS(inFeature):
+        startMessage('ESRIGNSS_AVG_H_RMS')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_AVG_H_RMS', 'DOUBLE', None, None, None, 'Average Horizontal Accuracy', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('ESRIGNSS_AVG_H_RMS')
+
+    def ESRIGNSS_AVG_V_RMS(inFeature):
+        startMessage('ESRIGNSS_AVG_V_RMS')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_AVG_V_RMS', 'DOUBLE', None, None, None, 'Average Vertical Accuracy', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('ESRIGNSS_AVG_V_RMS')
+
+    def ESRIGNSS_AVG_POSITIONS(inFeature):
+        startMessage('ESRIGNSS_AVG_POSITIONS')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_AVG_POSITIONS', 'LONG', None, None, None, 'Number of Positions Averaged', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('ESRIGNSS_AVG_POSITIONS')
+
+    def ESRIGNSS_H_STDDEV(inFeature):
+        startMessage('ESRIGNSS_H_STDDEV')
+        arcpy.AddField_management(inFeature, 'ESRIGNSS_H_STDDEV', 'DOUBLE', None, None, None, 'Standard Deviation', 'NULLABLE', 'NON_REQUIRED', None)
+        successMessage('ESRIGNSS_H_STDDEV')
 
     # This locals() thing is awesome
     # https://docs.python.org/2/library/functions.html#locals
