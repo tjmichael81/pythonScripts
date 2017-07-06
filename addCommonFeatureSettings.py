@@ -25,6 +25,18 @@ def add_globalid(in_dataset):
     arcpy.AddGlobalIDs_management(in_dataset)
     print("GlobalID field added to " + in_dataset)
 
+def alter_editor_tracking_fields(in_data):
+    """
+    Modify the aliases for the editor tracking fields
+    :param in_data: Input feature class
+    :return: None
+    """
+    arcpy.AlterField_management(in_data, "CREATED_BY", "", "Created By")
+    arcpy.AlterField_management(in_data, "CREATED_DATE", "", "Created Date")
+    arcpy.AlterField_management(in_data, "LAST_EDIT_BY", "", "Last Edit By")
+    arcpy.AlterField_management(in_data, "LAST_EDIT_DATE", "", "Last Edit Date")
+    print("Editor Tracking field aliases modified for " + in_data)
+
 def enable_attachments(in_data):
     """
     :param in_data: Input feature class
@@ -69,11 +81,13 @@ try:
 
     # Describe the shape type for each feature in featureList
     # Enable attachments and editor tracking for point, line, and polygon features
+    # Alter aliases for editor tracking fields
     for feature in featureList:
         desc = arcpy.Describe(feature)
         if desc.shapeType == "Polygon" or "Polyline" or "Point":
             enable_attachments(feature)
             enable_editor_tracking(feature)
+            alter_editor_tracking_fields(feature)
 
 except arcpy.ExecuteError:
     # Get the tool error messages
