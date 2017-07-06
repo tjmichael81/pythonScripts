@@ -11,8 +11,59 @@ import arcpy
 import sys
 import traceback
 
+# Script Variables #
+
+inWorkspace = r"C:\TEMP\pydev\WaterUtilities.gdb"
+
+# Script Functions #
+
+def add_globalid(in_dataset):
+    """
+    :param in_dataset: Input feature class
+    :return: None
+    """
+    arcpy.AddGlobalIDs_management(in_dataset)
+    print("GlobalID field added to " + in_dataset)
+
+def enable_attachments(in_data):
+    """
+    :param in_data: Input feature class
+    :return: None
+    """
+    arcpy.EnableAttachments_management(in_data)
+    print("Feature Attachments enabled for " + in_data)
+
 try:
-    arcpy.CreateSpatialReference_management()
+    # Set arcpy workspace to inWorkspace
+    arcpy.env.workspace = inWorkspace
+
+    # Create lists to store dataaset, feature, nd table items
+    featuredatasetList = []
+    featureList = []
+    tableList = []
+
+    # Find feature datasets in the workspace
+    featuredatasetList += [fd for fd in arcpy.ListDatasets(None, "Feature")]
+
+    # Add feature classes from each feature dataset to featureList
+    # Add GlobalID field to features in each dataset
+    for dataset in featuredatasetList:
+        featureList += [fc for fc in arcpy.ListFeatureClasses(None, "All", dataset)]
+        add_globalid(dataset)
+
+    # Search for standalone features in the workspace
+    # Add GlobalID field each feature and add to featureList
+    standalone_features = [fc for fc in arcpy.ListFeatureClasses()]
+    for feature in standalone_features:
+        add_globalid(feature)
+        featureList.append(feature)
+
+    # Describe the shape type for each feature in featureList
+    # Enable attachments for point, line, and polygon features
+    for feature in featureList:
+        desc = arcpy.Describe(feature)
+        if desc.shapeType == "Polygon" or "Polyline" or "Point":
+            enable_attachments(feature)
 
 except arcpy.ExecuteError:
     # Get the tool error messages
