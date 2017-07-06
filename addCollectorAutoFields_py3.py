@@ -16,10 +16,10 @@ import datetime
 ##############################################################################
 # Connection / path to root geodatabase
 # Will be used to check for / add required domains
-inWorkspace = r'C:\TEMP\WaterUtilities.gdb'
+inWorkspace = r'C:\Users\Timothy Michael\Google Drive\Clients\Pennsylvania\Creswell Heights Joint Authority\Projects\2017\ArcGIS Online Deployment\GIS_Resources\WaterNetworkGDB\WaterUtilities.gdb'
 
 # Input dataset - could be geodatabase, feature dataset, stand-alone feature
-inData = r'C:\TEMP\WaterUtilities.gdb'
+inData = r'C:\Users\Timothy Michael\Google Drive\Clients\Pennsylvania\Creswell Heights Joint Authority\Projects\2017\ArcGIS Online Deployment\GIS_Resources\WaterNetworkGDB\WaterUtilities.gdb'
 
 ##############################################################################
 # Script Functions
@@ -27,8 +27,8 @@ inData = r'C:\TEMP\WaterUtilities.gdb'
 def addPointFields(inFeature, fieldList):
     '''Adds GPS metadata to point features'''
 
-    print 'Adding GPS metadata fields to {0}'.format(inFeature)
-    print '\n'
+    print('Adding GPS metadata fields to {0}'.format(inFeature))
+    print('\n')
 
     # This list of fields will be used to compare against the list of fields
     # for the input feature, and then to call the function to add new fields
@@ -145,7 +145,7 @@ def addPointFields(inFeature, fieldList):
         if field.lower() not in fieldList:
             localFunctions[field](inFeature)
         else:
-            print '{0} already exists in {1}'.format(field, inFeature)
+            print('{0} already exists in {1}'.format(field, inFeature))
 
 def getDataType(inData):
     '''Return the DataType from arcpy.Describe'''
@@ -162,22 +162,22 @@ def featureHandler(inFeature):
     dsc = arcpy.Describe(inFeature)
 
     if dsc.shapeType == 'Point':
-        print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
+        print('{0} is a {1} feature'.format(dsc.name, dsc.shapeType))
 
         # Create a list of fields to compare against
         fieldList = createFieldList(inFeature)
         addPointFields(inFeature, fieldList)
 
     elif dsc.shapeType == 'Polyline':
-        print '{0} is a {1} feature \n'.format(dsc.name, dsc.shapeType)
-        print 'GPS metadata not supported for {0} features'.format(dsc.shapeType)
+        print('{0} is a {1} feature \n'.format(dsc.name, dsc.shapeType))
+        print('GPS metadata not supported for {0} features'.format(dsc.shapeType))
 
     elif dsc.shapeType == 'Polygon':
-        print '{0} is a {1} feature'.format(dsc.name, dsc.shapeType)
-        print 'GPS metadata not supported for {0} features'.format(dsc.shapeType)
+        print('{0} is a {1} feature'.format(dsc.name, dsc.shapeType))
+        print('GPS metadata not supported for {0} features'.format(dsc.shapeType))
 
     else:
-        print '{0} is not a valid feature type.'.format(dsc.name)
+        print('{0} is not a valid feature type.'.format(dsc.name))
 
 def createFieldList(inputFeature):
     '''Return a list of fields from the input feature'''
@@ -185,11 +185,11 @@ def createFieldList(inputFeature):
     return fieldList
 
 def startMessage(fName):
-    print 'Adding {0} field'.format(fName)
+    print('Adding {0} field'.format(fName))
 
 def successMessage(fName):
-    print '{0} field added successfully'.format(fName)
-    print '\n'
+    print('{0} field added successfully'.format(fName))
+    print('\n')
 
 def getShapeType(inFeature):
     '''Return the FeatureType from arcpy.Describe'''
@@ -207,7 +207,7 @@ domain_list = [domain.name.lower() for domain in arcpy.da.ListDomains(inWorkspac
 
 # Check for / add GNSSFixType
 if 'gnssfixtype' in domain_list:
-    print 'GNSSFixType domain found in workspace'
+    print('GNSSFixType domain found in workspace')
 
 else:
     arcpy.CreateDomain_management(inWorkspace, 'GNSSFixType', 'GNSS Fix Type', 'SHORT', 'CODED', 'DUPLICATE', 'DEFAULT')
@@ -216,25 +216,25 @@ else:
     arcpy.AddCodedValueToDomain_management(inWorkspace, 'GNSSFixType', '2', 'Differential GPS')
     arcpy.AddCodedValueToDomain_management(inWorkspace, 'GNSSFixType', '4', 'RTK Fixed')
     arcpy.AddCodedValueToDomain_management(inWorkspace, 'GNSSFixType', '5', 'RTK Float')
-    print 'GNSSFixType domain added'
+    print('GNSSFixType domain added')
 
 # Check for / add NumSatellites
 if 'numsatellites' in domain_list:
-    print 'NumSatellites domain found in workspace'
+    print('NumSatellites domain found in workspace')
 
 else:
     arcpy.CreateDomain_management(inWorkspace, 'NumSatellites', 'Number of Satellites', 'SHORT', 'RANGE', 'DUPLICATE', 'DEFAULT')
     arcpy.SetValueForRangeDomain_management(inWorkspace, 'NumSatellites', '0', '99')
-    print 'NumSatellites domain added'
+    print('NumSatellites domain added')
 
 # Check for / add NumStationID
 if 'numstationid' in domain_list:
-    print 'NumStationID domain found in workspace'
+    print('NumStationID domain found in workspace')
 
 else:
     arcpy.CreateDomain_management(inWorkspace, 'NumStationID', 'Station ID', 'SHORT', 'RANGE', 'DUPLICATE', 'DEFAULT')
     arcpy.SetValueForRangeDomain_management(inWorkspace, 'NumSatellites', '0', '1023')
-    print 'NumStationID domain added'
+    print('NumStationID domain added')
 
 # Get the data type of the input data
 # (geodatabase, feature dataset, feature class)
@@ -274,7 +274,7 @@ elif dataType == 'Workspace':
 ##############################################################################
 endTime = datetime.datetime.now()
 timeDelta = str(endTime - startTime)
-print 'Script completed in {0}'.format(timeDelta)
+print('Script completed in {0}'.format(timeDelta))
 
 
 if __name__ == '__main__':
