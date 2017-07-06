@@ -8,12 +8,14 @@
 
 # Import Modules
 import arcpy
+import datetime
 import sys
 import traceback
 
 # Script Variables #
 
 inWorkspace = r"C:\TEMP\pydev\WaterUtilities.gdb"
+startTime = datetime.datetime.now()
 
 # Script Functions #
 
@@ -88,6 +90,7 @@ try:
             enable_attachments(feature)
             enable_editor_tracking(feature)
             alter_editor_tracking_fields(feature)
+            print("\n")
 
 except arcpy.ExecuteError:
     # Get the tool error messages
@@ -115,3 +118,8 @@ except:
     # Print Python error messages for use in Python / Python Window
     print(pymsg)
     print(msgs)
+
+# Calculate script duration
+endTime = datetime.datetime.now()
+timeDelta = str(endTime - startTime)
+print('Script completed in {0}'.format(timeDelta))
