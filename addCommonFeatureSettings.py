@@ -33,6 +33,15 @@ def enable_attachments(in_data):
     arcpy.EnableAttachments_management(in_data)
     print("Feature Attachments enabled for " + in_data)
 
+def enable_editor_tracking(in_data):
+    """
+    :param in_data: Input feature class
+    :return: None
+    """
+    arcpy.EnableEditorTracking_management(in_data, "CREATED_BY", "CREATED_DATE", "LAST_EDIT_BY",
+                                          "LAST_EDIT_DATE", "ADD_FIELDS", "UTC")
+    print("Editor Tracking enabled for " + in_data)
+
 try:
     # Set arcpy workspace to inWorkspace
     arcpy.env.workspace = inWorkspace
@@ -59,11 +68,12 @@ try:
         featureList.append(feature)
 
     # Describe the shape type for each feature in featureList
-    # Enable attachments for point, line, and polygon features
+    # Enable attachments and editor tracking for point, line, and polygon features
     for feature in featureList:
         desc = arcpy.Describe(feature)
         if desc.shapeType == "Polygon" or "Polyline" or "Point":
             enable_attachments(feature)
+            enable_editor_tracking(feature)
 
 except arcpy.ExecuteError:
     # Get the tool error messages
