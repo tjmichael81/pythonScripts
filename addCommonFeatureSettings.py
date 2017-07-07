@@ -63,7 +63,6 @@ try:
     # Create lists to store dataaset, feature, nd table items
     featuredatasetList = []
     featureList = []
-    tableList = []
 
     # Find feature datasets in the workspace
     featuredatasetList += [fd for fd in arcpy.ListDatasets(None, "Feature")]
@@ -91,6 +90,13 @@ try:
             enable_editor_tracking(feature)
             alter_editor_tracking_fields(feature)
             print("\n")
+
+    # Find standalone tables in the workspace
+    # Enable editor tracking
+    tableList = arcpy.ListTables()
+    for table in tableList:
+        enable_editor_tracking(table)
+        alter_editor_tracking_fields(table)
 
 except arcpy.ExecuteError:
     # Get the tool error messages
