@@ -6,7 +6,7 @@
 # - Feature Attachments
 # -------------------------------------------------------------------------------
 
-# Import Modules
+# Import Modules #
 import arcpy
 import datetime
 import sys
@@ -19,6 +19,7 @@ startTime = datetime.datetime.now()
 
 # Script Functions #
 
+
 def add_globalid(in_dataset):
     """
     :param in_dataset: Input feature class
@@ -26,6 +27,7 @@ def add_globalid(in_dataset):
     """
     arcpy.AddGlobalIDs_management(in_dataset)
     print("GlobalID field added to " + in_dataset)
+
 
 def alter_editor_tracking_fields(in_data):
     """
@@ -39,6 +41,7 @@ def alter_editor_tracking_fields(in_data):
     arcpy.AlterField_management(in_data, "LAST_EDIT_DATE", "", "Last Edit Date")
     print("Editor Tracking field aliases modified for " + in_data)
 
+
 def enable_attachments(in_data):
     """
     :param in_data: Input feature class
@@ -46,6 +49,7 @@ def enable_attachments(in_data):
     """
     arcpy.EnableAttachments_management(in_data)
     print("Feature Attachments enabled for " + in_data)
+
 
 def enable_editor_tracking(in_data):
     """
@@ -56,11 +60,13 @@ def enable_editor_tracking(in_data):
                                           "LAST_EDIT_DATE", "ADD_FIELDS", "UTC")
     print("Editor Tracking enabled for " + in_data)
 
+# Main Script #
+
 try:
     # Set arcpy workspace to inWorkspace
     arcpy.env.workspace = inWorkspace
 
-    # Create lists to store dataaset, feature, nd table items
+    # Create lists to store dataset and feature items
     featuredatasetList = []
     featureList = []
 
