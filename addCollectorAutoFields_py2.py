@@ -16,10 +16,10 @@ import datetime
 ##############################################################################
 # Connection / path to root geodatabase
 # Will be used to check for / add required domains
-inWorkspace = r'C:\Users\Timothy Michael\Google Drive\Clients\Pennsylvania\Creswell Heights Joint Authority\Projects\2017\ArcGIS Online Deployment\GIS_Resources\WaterNetworkGDB\WaterUtilities.gdb'
+inWorkspace = r'C:\TEMP\collectorgpstest\WaterUtilities.gdb'
 
 # Input dataset - could be geodatabase, feature dataset, stand-alone feature
-inData = r'C:\Users\Timothy Michael\Google Drive\Clients\Pennsylvania\Creswell Heights Joint Authority\Projects\2017\ArcGIS Online Deployment\GIS_Resources\WaterNetworkGDB\WaterUtilities.gdb'
+inData = r'C:\TEMP\collectorgpstest\WaterUtilities.gdb'
 
 ##############################################################################
 # Script Functions
