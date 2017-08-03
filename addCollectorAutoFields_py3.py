@@ -258,7 +258,7 @@ elif dataType == 'Workspace':
     arcpy.env.workspace = inData
 
     # Handle feature datasets within the workspace
-    fdList = [fd for fd in arcpy.ListDatasets(None, 'Feature')]
+    fdList = [fd for fd in arcpy.ListDatasets('*', 'Feature')]
     for featureDataset in fdList:
         fcList = [fc for fc in arcpy.ListFeatureClasses(None, None, featureDataset)]
         for featureClass in fcList:
