@@ -259,6 +259,7 @@ elif dataType == 'Workspace':
 
     # Handle feature datasets within the workspace
     fdList = [fd for fd in arcpy.ListDatasets('*', 'Feature')]
+    fdList = [fd for fd in arcpy.ListDatasets(None, 'Feature')]
     for featureDataset in fdList:
         fcList = [fc for fc in arcpy.ListFeatureClasses(None, None, featureDataset)]
         for featureClass in fcList:
