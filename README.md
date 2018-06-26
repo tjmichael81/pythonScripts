@@ -13,6 +13,9 @@ File Descriptions:
 ### addCommonFeatureSettings.py
 - Add feature attachments, editor tracking, and GlobalID fields to features and tables in a geodatabase
 
+### batchReconcileandPost.py
+- Script used to schedule reconcile/post of all database versions and generate log file
+
 ### createMapsByFeatureExtent.py
 - Given an input polygon feature class and template map, create a new .mxd for each polygon in the input feature class
 
